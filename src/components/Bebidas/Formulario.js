@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 import api from '../../service/api';
-import { useParams, useNavigate, Navigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const FormularioBebida = (props) => {
     let id = useParams().id;
@@ -96,7 +96,7 @@ const FormularioBebida = (props) => {
     return (
         <Card className="mx-auto mt-4" style={{ maxWidth: '800px' }}>
             <Card.Header className=''>
-                <Link to="/bebidas" style={{position: 'absolute', marginTop: '5px', color: 'black'}}><span className="material-icons">
+                <Link to="/bebidas" style={{ position: 'absolute', marginTop: '5px', color: 'black' }}><span className="material-icons">
                     arrow_back
                 </span></Link>
                 <div className="text-center">
