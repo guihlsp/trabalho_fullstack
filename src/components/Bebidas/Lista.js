@@ -5,12 +5,14 @@ import api from '../../service/api';
 
 function ListaBebidas() {
   const [bebidas, setBebidas] = useState([]);
+  const [alertMessageSuccess, setAlertMessageSucces] = useState('');
+  const [alertMessageError, setAlertMessageError] = useState('');
+
 
   useEffect(() => {
     api.get('bebidas/listar')
       .then(response => {
         setBebidas(response.data)
-        console.log(response);
       })
       .catch(error => {
         console.log(error);
@@ -18,10 +20,19 @@ function ListaBebidas() {
   }, []);
 
   const handleDelete = id => {
-    // Lógica para enviar o ID da bebida para o backend e excluir a bebida
     api.delete('bebidas/' + id)
       .then(response => {
-        setBebidas(response.data);
+        const { status, message } = response.data;
+        if (status === 'error') {
+
+        }else{
+
+          setBebidas(response.data); 
+          setAlertMessageSucces(message);
+          setTimeout(() => {
+            setAlertMessageSucces('');
+          }, 1500);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -67,7 +78,6 @@ function ListaBebidas() {
                     to={'/bebidas/visualizar/'+bebida.id}
                     variant="primary"
                     style={{ width: "30px", height: "30px" }}
-                    onClick={() => handleDelete(bebida.id)}
                   >
                     <div className='d-flex justify-content-center'>
                       <span className='material-icons fs-5 text-dark'>

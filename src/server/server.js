@@ -70,9 +70,9 @@ app.post('/api/bebidas/adicionar', (req, res) => {
     db.query(query, [nome, descricao, categoria_id, fabricante_id, teor_alcoolico, categoria_nome, fabricante_nome], (err, result) => {
         if (err) {
             console.log(err);
-            res.status(500).send("Erro ao adicionar bebida");
+            res.json({ status: "error", message: "Não foi possível cadastrar a bebida!" });
         } else {
-            res.json({ status: "success", message: "Bebida adicionada com sucesso" });
+            res.json({ status: "success", message: "Bebida adicionada com sucesso!" });
         }
     });
 });
@@ -129,9 +129,9 @@ app.put('/api/bebidas/editar/:id', (req, res) => {
     db.query(query, [nome, descricao, categoria_id, fabricante_id, teor_alcoolico, id], (err, result) => {
         if (err) {
             console.log(err);
-            res.status(500).send("Erro ao atualizar bebida");
+            res.json({ status: "error", message: "Não foi possível cadastrar a bebida!" });
         } else {
-            res.send("Bebida atualizada com sucesso");
+            res.json({ status: "success", message: "Bebida adicionada com sucesso!" });
         }
     });
 });

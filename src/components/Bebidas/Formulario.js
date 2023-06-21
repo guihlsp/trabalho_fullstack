@@ -18,7 +18,8 @@ const FormularioBebida = (props) => {
         fabricante_nome: '',
         teor_alcoolico: '',
     });
-    const [alertMessage, setAlertMessage] = useState('');
+    const [alertMessageSuccess, setAlertMessageSucces] = useState('');
+    const [alertMessageError, setAlertMessageError] = useState('');
 
     useEffect(() => {
         if (props.action === 'adicionar') {
@@ -66,14 +67,21 @@ const FormularioBebida = (props) => {
             })
                 .then(response => {
                     const { status, message } = response.data;
-                    setAlertMessage(message);
-                    setTimeout(() => {
-                        setAlertMessage('');
-                        navigate('/bebidas');
-                    }, 1500);
+                    if (status === 'error') {
+                        setAlertMessageError(message);
+                        setTimeout(() => {
+                            setAlertMessageError('');
+                        }, 1500);
+                    } else {
+                        setAlertMessageSucces(message);
+                        setTimeout(() => {
+                            setAlertMessageSucces('');
+                            navigate('/bebidas');
+                        }, 1500);
+                    }
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.log(error)
                 });
         } else {
             api.post(url + 'adicionar', {
@@ -81,14 +89,21 @@ const FormularioBebida = (props) => {
             })
                 .then(response => {
                     const { status, message } = response.data;
-                    setAlertMessage(message);
-                    setTimeout(() => {
-                        setAlertMessage('');
-                        navigate('/bebidas');
-                    }, 1500);
+                    if (status === 'error') {
+                        setAlertMessageError(message);
+                        setTimeout(() => {
+                            setAlertMessageError('');
+                        }, 1500);
+                    } else {
+                        setAlertMessageSucces(message);
+                        setTimeout(() => {
+                            setAlertMessageSucces('');
+                            navigate('/bebidas');
+                        }, 1500);
+                    }
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.log(error)
                 });
         }
     };
@@ -104,8 +119,11 @@ const FormularioBebida = (props) => {
                 </div>
             </Card.Header>
             <Card.Body>
-                {alertMessage && (
-                    <div className="alert alert-success">{alertMessage}</div>
+                {alertMessageSuccess && (
+                    <div className="alert alert-success">{alertMessageSuccess}</div>
+                )}
+                {alertMessageError && (
+                    <div className="alert alert-danger">{alertMessageError}</div>
                 )}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="nome">
