@@ -39,24 +39,6 @@ const FormularioBebida = () => {
                     onChange={handleInputChange}
                 />
             </Form.Group>
-            <Form.Group controlId="descricao">
-                <Form.Label>Descrição</Form.Label>
-                <Form.Control
-                    as="textarea"
-                    name="descricao"
-                    value={formValues.descricao}
-                    onChange={handleInputChange}
-                />
-            </Form.Group>
-            <Form.Group controlId="categoria">
-                <Form.Label>Categoria</Form.Label>
-                <Form.Control
-                    type="text"
-                    name="categoria"
-                    value={formValues.categoria}
-                    onChange={handleInputChange}
-                />
-            </Form.Group>
             <Button variant="primary" type="submit">
                 Salvar
             </Button>
