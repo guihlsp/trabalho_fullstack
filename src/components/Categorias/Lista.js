@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import api from '../../service/api';
 
 function ListaCategorias() {
-  const [bebidas, setBebidas] = useState([]);
+  const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
-    api.get('bebidas/listar')
+    api.get('categorias/listar')
       .then(response => {
-        setBebidas(response.data);
+        setCategorias(response.data)
+        console.log(response);
       })
       .catch(error => {
         console.log(error);
@@ -17,10 +18,10 @@ function ListaCategorias() {
   }, []);
 
   const handleDelete = id => {
-    // Lógica para enviar o ID da bebida para o backend e excluir a bebida
-    api.delete('bebidas/' + id)
+    // Lógica para enviar o ID da categoria para o backend e excluir a categoria
+    api.delete('categorias/' + id)
       .then(response => {
-        setBebidas(response.data);
+        setCategorias(response.data);
       })
       .catch(error => {
         console.log(error);
@@ -28,36 +29,75 @@ function ListaCategorias() {
   };
 
   return (
-    <div>
-      <Row>
-        <Col>
-          <Link to="/bebidas/adicionar" className="btn btn-primary mb-4">
-            Cadastrar Nova Bebida
+    <Card className="mx-auto mt-4" style={{ maxWidth: '800px' }}>
+      <Card.Header className="text-center">
+        <h4>Lista de Categorias</h4>
+      </Card.Header>
+      <Card.Body>
+        <div className="text-right mb-3">
+          <Link to="/categorias/adicionar" className="btn btn-warning" size="lg">
+            <div className="d-flex align-items-center">
+            <span className="material-icons fs-4">
+              add
+            </span>
+            Cadastrar categoria
+            </div>
           </Link>
-        </Col>
-      </Row>
-      <Row>
-        {bebidas.map(bebida => (
-          <Col key={bebida.id} xs={12} sm={6} md={4} lg={3}>
-            <Card className="mb-4">
-              <Card.Body>
-                <Card.Title>{bebida.nome}</Card.Title>
-                <Card.Text>{bebida.descricao}</Card.Text>
-                <Card.Text>Categoria: {bebida.categoria}</Card.Text>
-                <Button variant="info">Editar</Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleDelete(bebida.id)}
-                >
-                  Excluir
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </div>
+        </div>
+        <Table striped bordered hover responsive>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th style={{ width: "130px", minWidth: "130px", textAlign: "center" }}>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {categorias.map(categoria => (
+              <tr key={categoria.id}>
+                <td>{categoria.nome}</td>
+                <td className='d-flex justify-content-around'>
+                  <Link
+                    className="btn btn-primary"
+                    to={'/categorias/visualizar/'+categoria.id}
+                    variant="primary"
+                    style={{ width: "30px", height: "30px" }}
+                    onClick={() => handleDelete(categoria.id)}
+                  >
+                    <div className='d-flex justify-content-center'>
+                      <span className='material-icons fs-5 text-dark'>
+                        search
+                      </span>
+                    </div>
+                  </Link>
+                  <Link
+                    className='btn btn-warning'
+                    to={'/categorias/editar/'+categoria.id}
+                    style={{ width: "30px", height: "30px" }}
+                    variant="warning">
+                    <div className='d-flex justify-content-center'>
+                      <span className='material-icons fs-5'>
+                        edit
+                      </span>
+                    </div>
+                  </Link>
+                  <Button
+                    variant="danger"
+                    style={{ width: "30px", height: "30px" }}
+                    onClick={() => handleDelete(categoria.id)}
+                  >
+                    <div className='d-flex justify-content-center'>
+                      <span className='material-icons fs-5 text-dark'>
+                        clear
+                      </span>
+                    </div>
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Card.Body>
+    </Card>
   );
 }
-
 export default ListaCategorias;
