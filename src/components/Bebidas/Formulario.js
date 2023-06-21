@@ -111,9 +111,9 @@ const FormularioBebida = (props) => {
     return (
         <Card className="mx-auto mt-4" style={{ maxWidth: '800px' }}>
             <Card.Header className=''>
-                <Link to="/bebidas" style={{ position: 'absolute', marginTop: '5px', color: 'black' }}><span className="material-icons">
-                    arrow_back
-                </span></Link>
+                <Link to="/bebidas" style={{ position: 'absolute', marginTop: '5px', color: 'black' }}>
+                    <span className="material-icons">arrow_back</span>
+                </Link>
                 <div className="text-center">
                     <h4>{props.action === 'editar' ? 'Editar' : 'Adicionar'} bebida</h4>
                 </div>
@@ -131,7 +131,7 @@ const FormularioBebida = (props) => {
                         <Form.Control
                             type="text"
                             name="nome"
-                            value={bebida.nome}
+                            value={bebida.nome || ''}
                             onChange={handleInputChange}
                         />
                     </Form.Group>
@@ -140,7 +140,7 @@ const FormularioBebida = (props) => {
                         <Form.Control
                             as="textarea"
                             name="descricao"
-                            value={bebida.descricao}
+                            value={bebida.descricao || ''}
                             onChange={handleInputChange}
                         />
                     </Form.Group>
@@ -149,7 +149,7 @@ const FormularioBebida = (props) => {
                         <Form.Control
                             as="select"
                             name="categoria"
-                            value={bebida.categoria}
+                            value={bebida.categoria || ''}
                             onChange={handleInputChange}
                         >
                             <option value="">Selecione uma categoria</option>
@@ -163,7 +163,7 @@ const FormularioBebida = (props) => {
                         <Form.Control
                             as="select"
                             name="fabricante"
-                            value={bebida.fabricante}
+                            value={bebida.fabricante || ''}
                             onChange={handleInputChange}
                         >
                             <option value="">Selecione um fabricante</option>
@@ -177,7 +177,7 @@ const FormularioBebida = (props) => {
                         <Form.Control
                             type="text"
                             name="teor_alcoolico"
-                            value={bebida.teor_alcoolico}
+                            value={bebida.teor_alcoolico || ''}
                             onChange={handleInputChange}
                         />
                     </Form.Group>

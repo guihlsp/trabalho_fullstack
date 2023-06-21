@@ -25,9 +25,9 @@ function ListaBebidas() {
         const { status, message } = response.data;
         if (status === 'error') {
 
-        }else{
+        } else {
 
-          setBebidas(response.data); 
+          setBebidas(response.data);
           setAlertMessageSucces(message);
           setTimeout(() => {
             setAlertMessageSucces('');
@@ -48,10 +48,10 @@ function ListaBebidas() {
         <div className="text-right mb-3">
           <Link to="/bebidas/adicionar" className="btn btn-warning" size="lg">
             <div className="d-flex align-items-center">
-            <span className="material-icons fs-4">
-              add
-            </span>
-            Cadastrar bebida
+              <span className="material-icons fs-4">
+                add
+              </span>
+              Cadastrar bebida
             </div>
           </Link>
         </div>
@@ -65,56 +65,67 @@ function ListaBebidas() {
               <th style={{ width: "130px", minWidth: "130px", textAlign: "center" }}>Ações</th>
             </tr>
           </thead>
-          <tbody>
-            {bebidas.map(bebida => (
-              <tr key={bebida.id}>
-                <td>{bebida.nome}</td>
-                <td>{bebida.descricao}</td>
-                <td>{bebida.categoria_nome}</td>
-                <td>{bebida.fabricante_nome}</td>
-                <td className='d-flex justify-content-around'>
-                  <Link
-                    className="btn btn-primary"
-                    to={'/bebidas/visualizar/'+bebida.id}
-                    variant="primary"
-                    style={{ width: "30px", height: "30px" }}
-                  >
-                    <div className='d-flex justify-content-center'>
-                      <span className='material-icons fs-5 text-dark'>
-                        search
-                      </span>
-                    </div>
-                  </Link>
-                  <Link
-                    className='btn btn-warning'
-                    to={'/bebidas/editar/'+bebida.id}
-                    style={{ width: "30px", height: "30px" }}
-                    variant="warning">
-                    <div className='d-flex justify-content-center'>
-                      <span className='material-icons fs-5'>
-                        edit
-                      </span>
-                    </div>
-                  </Link>
-                  <Button
-                    variant="danger"
-                    style={{ width: "30px", height: "30px" }}
-                    onClick={() => handleDelete(bebida.id)}
-                  >
-                    <div className='d-flex justify-content-center'>
-                      <span className='material-icons fs-5 text-dark'>
-                        clear
-                      </span>
-                    </div>
-                  </Button>
+          {bebidas.length > 0 ? (
+            <tbody>
+              {bebidas.map(bebida => (
+                <tr key={bebida.id}>
+                  <td>{bebida.nome}</td>
+                  <td>{bebida.descricao}</td>
+                  <td>{bebida.categoria_nome}</td>
+                  <td>{bebida.fabricante_nome}</td>
+                  <td className='d-flex justify-content-around'>
+                    <Link
+                      className="btn btn-primary"
+                      to={'/bebidas/visualizar/' + bebida.id}
+                      variant="primary"
+                      style={{ width: "30px", height: "30px" }}
+                    >
+                      <div className='d-flex justify-content-center'>
+                        <span className='material-icons fs-5 text-dark'>
+                          search
+                        </span>
+                      </div>
+                    </Link>
+                    <Link
+                      className='btn btn-warning'
+                      to={'/bebidas/editar/' + bebida.id}
+                      style={{ width: "30px", height: "30px" }}
+                      variant="warning"
+                    >
+                      <div className='d-flex justify-content-center'>
+                        <span className='material-icons fs-5'>
+                          edit
+                        </span>
+                      </div>
+                    </Link>
+                    <Button
+                      variant="danger"
+                      style={{ width: "30px", height: "30px" }}
+                      onClick={() => handleDelete(bebida.id)}
+                    >
+                      <div className='d-flex justify-content-center'>
+                        <span className='material-icons fs-5 text-dark'>
+                          clear
+                        </span>
+                      </div>
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          ) : (
+            <tbody>
+              <tr>
+                <td colSpan={5} className="text-center">
+                  Nenhuma bebida encontrada!
                 </td>
               </tr>
-            ))}
-          </tbody>
+            </tbody>
+          )}
         </Table>
       </Card.Body>
     </Card>
   );
 }
 
-export default ListaBebidas;
+export default ListaBebidas;  

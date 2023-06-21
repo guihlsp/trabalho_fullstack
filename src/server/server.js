@@ -64,7 +64,6 @@ app.get('/api/bebidas/adicionar', (req, res) => {
 app.post('/api/bebidas/adicionar', (req, res) => {
     const { bebida } = req.body;
     const { nome, descricao, categoria_id, fabricante_id, teor_alcoolico, categoria_nome, fabricante_nome } = bebida;
-    console.log(req.body);
 
     const query = "INSERT INTO bebidas (nome, descricao, categoria_id, fabricante_id, teor_alcoolico, categoria_nome, fabricante_nome) VALUES (?, ?, ?, ?, ?, ?, ?)";
     db.query(query, [nome, descricao, categoria_id, fabricante_id, teor_alcoolico, categoria_nome, fabricante_nome], (err, result) => {
@@ -77,50 +76,51 @@ app.post('/api/bebidas/adicionar', (req, res) => {
     });
 });
 
-// EDITAR
-// app.get('/api/bebidas/editar/:id', (req, res) => {
-//     Promise.all([
-//         new Promise((resolve, reject) => {
-//             db.query("SELECT * FROM categorias", (err, result) => {
-//                 if (err) {
-//                     console.log(err);
-//                     reject("Erro ao listar categorias");
-//                 } else {
-//                     resolve(result);
-//                 }
-//             });
-//         }),
-//         new Promise((resolve, reject) => {
-//             db.query("SELECT * FROM fabricantes", (err, result) => {
-//                 if (err) {
-//                     console.log(err);
-//                     reject("Erro ao listar fabricantes");
-//                 } else {
-//                     resolve(result);
-//                 }
-//             });
-//         }),
-//         new Promise((resolve, reject) => {
-//             const { id } = req.params;
-//             const query = "SELECT * FROM bebidas WHERE id = ?";
-//             db.query(query, [id], (err, result) => {
-//                 if (err) {
-//                     console.log(err);
-//                     reject("Erro ao buscar bebida");
-//                 } else {
-//                     resolve(result);
-//                 }
-//             });
-//         })
-//     ])
-//         .then(([categorias, fabricantes]) => {
-//             res.json({ categorias, fabricantes });
-//         })
-//         .catch(error => {
-//             console.log(error);
-//             res.status(500).send("Erro ao obter os dados");
-//         });
-// });
+//EDITAR
+app.get('/api/bebidas/editar/:id', (req, res) => {
+    Promise.all([
+        new Promise((resolve, reject) => {
+            db.query("SELECT * FROM categorias", (err, result) => {
+                if (err) {
+                    console.log(err);
+                    reject("Erro ao listar categorias");
+                } else {
+                    resolve(result);
+                }
+            });
+        }),
+        new Promise((resolve, reject) => {
+            db.query("SELECT * FROM fabricantes", (err, result) => {
+                if (err) {
+                    console.log(err);
+                    reject("Erro ao listar fabricantes");
+                } else {
+                    resolve(result);
+                }
+            });
+        }),
+        new Promise((resolve, reject) => {
+            const { id } = req.params;
+            console.log(id)
+            const query = "SELECT * FROM bebidas WHERE id = ?";
+            db.query(query, [id], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    reject("Erro ao buscar bebida");
+                } else {
+                    resolve(result[0]);
+                }
+            });
+        })
+    ])
+        .then(([categorias, fabricantes, bebida]) => {
+            res.json({ categorias, fabricantes, bebida });
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).send("Erro ao obter os dados");
+        });
+});
 
 app.put('/api/bebidas/editar/:id', (req, res) => {
     const { id } = req.params;
@@ -163,14 +163,14 @@ app.delete('/api/bebidas/:id', (req, res) => {
     db.query(queryDelete, [id], (err, result) => {
         if (err) {
             console.log(err);
-            res.status(500).send("Erro ao excluir bebida");
+            res.json({ status: "error", message: "Não foi possível excluir a bebida!" });
         } else {
             db.query(querySelectAll, (err, result) => {
                 if (err) {
                     console.log(err);
-                    res.status(500).send("Erro ao listar bebidas");
+                    res.json({ status: "error", message: "Não foi possível excluir a bebida!" });
                 } else {
-                    res.send(result);
+                    res.json({ status: "success", message: "Bebida excluída com sucesso!", data: result});
                 }
             });
         }
