@@ -157,6 +157,102 @@ app.delete('/api/bebidas/:id', (req, res) => {
     });
 });
 
+// LISTAR CATEGORIAS
+app.get("/api/categorias/listar", (req, res) => {
+    db.query("SELECT * FROM categorias", (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Erro ao listar categorias");
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+// ADICIONAR CATEGORIA
+app.post('/api/categorias/adicionar', (req, res) => {
+    const { nome } = req.body;
+
+    const query = "INSERT INTO categorias (nome) VALUES (?)";
+    db.query(query, [nome], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Erro ao adicionar categoria");
+        } else {
+            res.json({ status: "success", message: "Categoria adicionada com sucesso" });
+        }
+    });
+});
+
+// EDITAR CATEGORIA
+app.put('/api/categorias/editar/:id', (req, res) => {
+    const { id } = req.params;
+    const { nome } = req.body;
+    console.log('Editar categoria:', id);
+    console.log('Novo nome:', nome);
+    
+    const query = "UPDATE categorias SET nome = ? WHERE id = ?";
+    db.query(query, [nome, id], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Erro ao editar categoria");
+        } else {
+            res.json({ status: "success", message: "Categoria editada com sucesso" });
+        }
+    });
+});
+
+// VISUALIZAR CATEGORIA
+app.get('/api/categorias/visualizar/:id', (req, res) => {
+    const { id } = req.params;
+    const query = "SELECT * FROM categorias WHERE id = ?";
+    db.query(query, [id], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Erro ao visualizar categoria");
+        } else {
+            if (result.length === 0) {
+                res.status(404).send("Categoria não encontrada");
+            } else {
+                res.send(result[0]);
+            }
+        }
+    });
+});
+
+
+// DELETAR CATEGORIA
+app.delete('/api/categorias/deletar/:id', (req, res) => {
+    const { id } = req.params;
+    console.log('Deletar categoria:', id);
+
+    const query = "DELETE FROM categorias WHERE id = ?";
+    db.query(query, [id], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Erro ao deletar categoria");
+        } else {
+            res.json({ status: "success", message: "Categoria deletada com sucesso" });
+        }
+    });
+});
+
+
+app.post('/api/categorias/adicionar', (req, res) => {
+    const { nome } = req.body;
+
+    const query = "INSERT INTO categorias (nome) VALUES (?)";
+    db.query(query, [nome], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Erro ao adicionar categoria");
+        } else {
+            res.json({ status: "success", message: "Categoria adicionada com sucesso" });
+        }
+    });
+});
+
+
 app.listen(PORT, () => {
     console.log(`Servidor Express iniciado na porta ${PORT}`);
 });
