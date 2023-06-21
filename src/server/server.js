@@ -40,20 +40,10 @@ app.get('/api/bebidas/adicionar', (req, res) => {
                     resolve(result);
                 }
             });
-        }),
-        new Promise((resolve, reject) => {
-            db.query("SELECT * FROM fabricantes", (err, result) => {
-                if (err) {
-                    console.log(err);
-                    reject("Erro ao listar fabricantes");
-                } else {
-                    resolve(result);
-                }
-            });
         })
     ])
-        .then(([categorias, fabricantes]) => {
-            res.json({ categorias, fabricantes });
+        .then(([categorias]) => {
+            res.json({ categorias });
         })
         .catch(error => {
             console.log(error);
@@ -63,10 +53,10 @@ app.get('/api/bebidas/adicionar', (req, res) => {
 
 app.post('/api/bebidas/adicionar', (req, res) => {
     const { bebida } = req.body;
-    const { nome, descricao, categoria_id, fabricante_id, teor_alcoolico, categoria_nome, fabricante_nome } = bebida;
+    const { nome, descricao, categoria_id, teor_alcoolico, categoria_nome } = bebida;
 
-    const query = "INSERT INTO bebidas (nome, descricao, categoria_id, fabricante_id, teor_alcoolico, categoria_nome, fabricante_nome) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    db.query(query, [nome, descricao, categoria_id, fabricante_id, teor_alcoolico, categoria_nome, fabricante_nome], (err, result) => {
+    const query = "INSERT INTO bebidas (nome, descricao, categoria_id, teor_alcoolico, categoria_nome) VALUES (?, ?, ?, ?, ?)";
+    db.query(query, [nome, descricao, categoria_id, teor_alcoolico, categoria_nome], (err, result) => {
         if (err) {
             console.log(err);
             res.json({ status: "error", message: "Não foi possível cadastrar a bebida!" });
@@ -90,16 +80,6 @@ app.get('/api/bebidas/editar/:id', (req, res) => {
             });
         }),
         new Promise((resolve, reject) => {
-            db.query("SELECT * FROM fabricantes", (err, result) => {
-                if (err) {
-                    console.log(err);
-                    reject("Erro ao listar fabricantes");
-                } else {
-                    resolve(result);
-                }
-            });
-        }),
-        new Promise((resolve, reject) => {
             const { id } = req.params;
             console.log(id)
             const query = "SELECT * FROM bebidas WHERE id = ?";
@@ -113,8 +93,8 @@ app.get('/api/bebidas/editar/:id', (req, res) => {
             });
         })
     ])
-        .then(([categorias, fabricantes, bebida]) => {
-            res.json({ categorias, fabricantes, bebida });
+        .then(([categorias, bebida]) => {
+            res.json({ categorias, bebida });
         })
         .catch(error => {
             console.log(error);
@@ -124,12 +104,12 @@ app.get('/api/bebidas/editar/:id', (req, res) => {
 
 app.put('/api/bebidas/editar/:id', (req, res) => {
     const { id } = req.params;
-    const { nome, descricao, categoria_id, fabricante_id, teor_alcoolico } = req.body;
-    const query = "UPDATE bebidas SET nome = ?, descricao = ?, categoria_id = ?, fabricante_id = ?, teor_alcoolico = ? WHERE id = ?";
-    db.query(query, [nome, descricao, categoria_id, fabricante_id, teor_alcoolico, id], (err, result) => {
+    const { nome, descricao, categoria_id, categoria_nome, teor_alcoolico } = req.body;
+    const query = "UPDATE bebidas SET nome = ?, descricao = ?, categoria_id = ?, categoria_nome = ?, teor_alcoolico = ? WHERE id = ?";
+    db.query(query, [nome, descricao, categoria_id, categoria_nome, teor_alcoolico, id], (err, result) => {
         if (err) {
             console.log(err);
-            res.json({ status: "error", message: "Não foi possível cadastrar a bebida!" });
+            res.json({ status: "error", message: "Não foi possível editar a bebida!" });
         } else {
             res.json({ status: "success", message: "Bebida adicionada com sucesso!" });
         }

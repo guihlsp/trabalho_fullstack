@@ -24,9 +24,11 @@ function ListaBebidas() {
       .then(response => {
         const { status, message } = response.data;
         if (status === 'error') {
-
+          setAlertMessageError(message);
+          setTimeout(() => {
+            setAlertMessageError('');
+          }, 1500);
         } else {
-
           setBebidas(response.data);
           setAlertMessageSucces(message);
           setTimeout(() => {
@@ -45,6 +47,12 @@ function ListaBebidas() {
         <h4>Lista de Bebidas</h4>
       </Card.Header>
       <Card.Body>
+        {alertMessageSuccess && (
+          <div className="alert alert-success">{alertMessageSuccess}</div>
+        )}
+        {alertMessageError && (
+          <div className="alert alert-danger">{alertMessageError}</div>
+        )}
         <div className="text-right mb-3">
           <Link to="/bebidas/adicionar" className="btn btn-warning" size="lg">
             <div className="d-flex align-items-center">
@@ -61,7 +69,6 @@ function ListaBebidas() {
               <th>Nome</th>
               <th>Descrição</th>
               <th>Categoria</th>
-              <th>Fabricante</th>
               <th style={{ width: "130px", minWidth: "130px", textAlign: "center" }}>Ações</th>
             </tr>
           </thead>
@@ -72,7 +79,6 @@ function ListaBebidas() {
                   <td>{bebida.nome}</td>
                   <td>{bebida.descricao}</td>
                   <td>{bebida.categoria_nome}</td>
-                  <td>{bebida.fabricante_nome}</td>
                   <td className='d-flex justify-content-around'>
                     <Link
                       className="btn btn-primary"

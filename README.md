@@ -22,22 +22,14 @@ Antes de começar, verifique se o seguinte software está instalado em sua máqu
     nome VARCHAR(50)
     );
 
-    CREATE TABLE fabricantes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100),
-    localizacao VARCHAR(100),
-    ano_fundacao YEAR
-    );
-
     CREATE TABLE bebidas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100),
     descricao TEXT,
     categoria_id INT,
-    fabricante_id INT,
+    categoria_nome VARCHAR(100),
     teor_alcoolico FLOAT,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id),
-    FOREIGN KEY (fabricante_id) REFERENCES fabricantes(id)
     );
 ```
 2. Certifique-se de ter as informações de conexão corretas do seu banco de dados MySQL (host, porta, nome de usuário e senha) para configurar a conexão com o servidor.

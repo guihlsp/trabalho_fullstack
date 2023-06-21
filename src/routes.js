@@ -12,11 +12,6 @@ import AdicionarCategoria from './views/Categorias/Adicionar';
 import EditarCategoria from './views/Categorias/Editar';
 import VisualizarCategoria from './views/Categorias/Visualizar';
 
-import ListarFabricantes from './views/Fabricantes/Listar';
-import AdicionarFabricante from './views/Fabricantes/Adicionar';
-import EditarFabricante from './views/Fabricantes/Editar';
-import VisualizarFabricante from './views/Fabricantes/Visualizar';
-
 const Router = () => {
   return (
     <Routes>
@@ -32,11 +27,6 @@ const Router = () => {
         <Route path="/categorias/adicionar" element={<AdicionarCategoria />} />
         <Route path="/categorias/editar/:id" element={<EditarCategoria />} />
         <Route path="/categorias/visualizar/:id" element={<VisualizarCategoria />} />
-        {/* Rotas FABRICANTES */}
-        <Route path="/fabricantes" element={<ListarFabricantes />} />
-        <Route path="/fabricantes/adicionar" element={<AdicionarFabricante />} />
-        <Route path="/fabricantes/editar/:id" element={<EditarFabricante />} />
-        <Route path="/fabricantes/visualizar/:id" element={<VisualizarFabricante />} />
       </Route>
     </Routes>
   );

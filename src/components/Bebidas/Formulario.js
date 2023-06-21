@@ -8,14 +8,11 @@ const FormularioBebida = (props) => {
     const navigate = useNavigate();
 
     const [categorias, setCategorias] = useState([]);
-    const [fabricantes, setFabricantes] = useState([]);
     const [bebida, setFormValues] = useState({
         nome: '',
         descricao: '',
         categoria: '',
         categoria_nome: '',
-        fabricante: '',
-        fabricante_nome: '',
         teor_alcoolico: '',
     });
     const [alertMessageSuccess, setAlertMessageSucces] = useState('');
@@ -25,9 +22,8 @@ const FormularioBebida = (props) => {
         if (props.action === 'adicionar') {
             api.get('bebidas/adicionar')
                 .then(response => {
-                    const { categorias, fabricantes } = response.data;
+                    const { categorias } = response.data;
                     setCategorias(categorias);
-                    setFabricantes(fabricantes);
                 })
                 .catch(error => {
                     console.log(error);
@@ -35,10 +31,9 @@ const FormularioBebida = (props) => {
         } else if (props.action === 'editar') {
             api.get(`bebidas/editar/${id}`)
                 .then(response => {
-                    const { bebida, categorias, fabricantes } = response.data;
+                    const { bebida, categorias } = response.data;
                     setFormValues(bebida);
                     setCategorias(categorias);
-                    setFabricantes(fabricantes);
                 })
                 .catch(error => {
                     console.log(error);
@@ -52,9 +47,7 @@ const FormularioBebida = (props) => {
             ...prevState,
             [name]: value,
             categoria_id: name === 'categoria' ? e.target.value : prevState.categoria_id,
-            fabricante_id: name === 'fabricante' ? e.target.value : prevState.fabricante_id,
             categoria_nome: name === 'categoria' ? e.target.options[e.target.selectedIndex].text : prevState.categoria_nome,
-            fabricante_nome: name === 'fabricante' ? e.target.options[e.target.selectedIndex].text : prevState.fabricante_nome,
         }));
     };
 
@@ -155,20 +148,6 @@ const FormularioBebida = (props) => {
                             <option value="">Selecione uma categoria</option>
                             {categorias.map(categoria => (
                                 <option key={categoria.id} value={categoria.id}>{categoria.nome}</option>
-                            ))}
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group controlId="fabricante" className='mt-2'>
-                        <Form.Label>Fabricante</Form.Label>
-                        <Form.Control
-                            as="select"
-                            name="fabricante"
-                            value={bebida.fabricante || ''}
-                            onChange={handleInputChange}
-                        >
-                            <option value="">Selecione um fabricante</option>
-                            {fabricantes.map(fabricante => (
-                                <option key={fabricante.id} value={fabricante.id}>{fabricante.nome}</option>
                             ))}
                         </Form.Control>
                     </Form.Group>
