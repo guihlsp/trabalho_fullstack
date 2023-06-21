@@ -117,7 +117,7 @@ app.put('/api/bebidas/editar/:id', (req, res) => {
 });
 
 // VISUALIZAR
-app.get('/api/bebidas/:id', (req, res) => {
+app.get('/api/bebidas/visualizar/:id', (req, res) => {
     const { id } = req.params;
     const query = "SELECT * FROM bebidas WHERE id = ?";
     db.query(query, [id], (err, result) => {
