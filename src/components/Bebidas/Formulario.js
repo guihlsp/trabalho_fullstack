@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 import api from '../../service/api';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, Navigate, Link } from 'react-router-dom';
 
 const FormularioBebida = (props) => {
     let id = useParams().id;
+    const navigate = useNavigate();
 
     const [categorias, setCategorias] = useState([]);
     const [fabricantes, setFabricantes] = useState([]);
@@ -12,9 +13,12 @@ const FormularioBebida = (props) => {
         nome: '',
         descricao: '',
         categoria: '',
+        categoria_nome: '',
         fabricante: '',
+        fabricante_nome: '',
         teor_alcoolico: '',
     });
+    const [alertMessage, setAlertMessage] = useState('');
 
     useEffect(() => {
         if (props.action === 'adicionar') {
@@ -46,6 +50,10 @@ const FormularioBebida = (props) => {
         setFormValues(prevState => ({
             ...prevState,
             [name]: value,
+            categoria_id: name === 'categoria' ? e.target.value : prevState.categoria_id,
+            fabricante_id: name === 'fabricante' ? e.target.value : prevState.fabricante_id,
+            categoria_nome: name === 'categoria' ? e.target.options[e.target.selectedIndex].text : prevState.categoria_nome,
+            fabricante_nome: name === 'fabricante' ? e.target.options[e.target.selectedIndex].text : prevState.fabricante_nome,
         }));
     };
 
@@ -57,7 +65,12 @@ const FormularioBebida = (props) => {
                 bebida,
             })
                 .then(response => {
-                    console.log(response);
+                    const { status, message } = response.data;
+                    setAlertMessage(message);
+                    setTimeout(() => {
+                        setAlertMessage('');
+                        navigate('/bebidas');
+                    }, 1500);
                 })
                 .catch(error => {
                     console.log(error);
@@ -67,21 +80,33 @@ const FormularioBebida = (props) => {
                 bebida,
             })
                 .then(response => {
-                    console.log(response);
+                    const { status, message } = response.data;
+                    setAlertMessage(message);
+                    setTimeout(() => {
+                        setAlertMessage('');
+                        navigate('/bebidas');
+                    }, 1500);
                 })
                 .catch(error => {
                     console.log(error);
                 });
         }
-        // Lógica para enviar os dados do formulário para o backend e adicionar ou atualizar uma bebida
     };
 
     return (
         <Card className="mx-auto mt-4" style={{ maxWidth: '800px' }}>
-            <Card.Header className="text-center">
-                <h4>{props.action === 'editar' ? 'Editar' : 'Adicionar'} bebida</h4>
+            <Card.Header className=''>
+                <Link to="/bebidas" style={{position: 'absolute', marginTop: '5px', color: 'black'}}><span className="material-icons">
+                    arrow_back
+                </span></Link>
+                <div className="text-center">
+                    <h4>{props.action === 'editar' ? 'Editar' : 'Adicionar'} bebida</h4>
+                </div>
             </Card.Header>
             <Card.Body>
+                {alertMessage && (
+                    <div className="alert alert-success">{alertMessage}</div>
+                )}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="nome">
                         <Form.Label>Nome</Form.Label>

@@ -15,50 +15,20 @@ db.connect(function (err) {
         console.log("Banco de dados conectado!");
     }
 });
-//LISTAR
+
+// LISTAR
 app.get("/api/bebidas/listar", (req, res) => {
-    Promise.all([
-        new Promise((resolve, reject) => {
-            db.query("SELECT * FROM bebidas", (err, result) => {
-                if (err) {
-                    console.log(err);
-                    reject("Erro ao listar bebidas");
-                } else {
-                    resolve(result);
-                }
-            });
-        }),
-        new Promise((resolve, reject) => {
-            db.query("SELECT * FROM categorias", (err, result) => {
-                if (err) {
-                    console.log(err);
-                    reject("Erro ao listar categorias");
-                } else {
-                    resolve(result);
-                }
-            });
-        }),
-        new Promise((resolve, reject) => {
-            db.query("SELECT * FROM fabricantes", (err, result) => {
-                if (err) {
-                    console.log(err);
-                    reject("Erro ao listar fabricantes");
-                } else {
-                    resolve(result);
-                }
-            });
-        })
-    ])
-        .then(([bebidas, categorias, fabricantes]) => {
-            res.json({ bebidas, categorias, fabricantes });
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(500).send("Erro ao obter os dados");
-        });
+    db.query("SELECT * FROM bebidas", (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Erro ao listar bebidas");
+        } else {
+            res.send(result);
+        }
+    });
 });
 
-//ADICIONAR
+// ADICIONAR
 app.get('/api/bebidas/adicionar', (req, res) => {
     Promise.all([
         new Promise((resolve, reject) => {
@@ -82,28 +52,76 @@ app.get('/api/bebidas/adicionar', (req, res) => {
             });
         })
     ])
-    .then(([categorias, fabricantes]) => {
-        res.json({ categorias, fabricantes });
-    })
-    .catch(error => {
-        console.log(error);
-        res.status(500).send("Erro ao obter os dados");
-    });
+        .then(([categorias, fabricantes]) => {
+            res.json({ categorias, fabricantes });
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).send("Erro ao obter os dados");
+        });
 });
+
 app.post('/api/bebidas/adicionar', (req, res) => {
-    const { nome, descricao, categoria_id, fabricante_id, teor_alcoolico } = req.body;
-    const query = "INSERT INTO bebidas (nome, descricao, categoria_id, fabricante_id, teor_alcoolico) VALUES (?, ?, ?, ?, ?)";
-    db.query(query, [nome, descricao, categoria_id, fabricante_id, teor_alcoolico], (err, result) => {
+    const { bebida } = req.body;
+    const { nome, descricao, categoria_id, fabricante_id, teor_alcoolico, categoria_nome, fabricante_nome } = bebida;
+    console.log(req.body);
+
+    const query = "INSERT INTO bebidas (nome, descricao, categoria_id, fabricante_id, teor_alcoolico, categoria_nome, fabricante_nome) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    db.query(query, [nome, descricao, categoria_id, fabricante_id, teor_alcoolico, categoria_nome, fabricante_nome], (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send("Erro ao adicionar bebida");
         } else {
-            res.send("Bebida adicionada com sucesso");
+            res.json({ status: "success", message: "Bebida adicionada com sucesso" });
         }
     });
 });
 
-//EDITAR
+// EDITAR
+// app.get('/api/bebidas/editar/:id', (req, res) => {
+//     Promise.all([
+//         new Promise((resolve, reject) => {
+//             db.query("SELECT * FROM categorias", (err, result) => {
+//                 if (err) {
+//                     console.log(err);
+//                     reject("Erro ao listar categorias");
+//                 } else {
+//                     resolve(result);
+//                 }
+//             });
+//         }),
+//         new Promise((resolve, reject) => {
+//             db.query("SELECT * FROM fabricantes", (err, result) => {
+//                 if (err) {
+//                     console.log(err);
+//                     reject("Erro ao listar fabricantes");
+//                 } else {
+//                     resolve(result);
+//                 }
+//             });
+//         }),
+//         new Promise((resolve, reject) => {
+//             const { id } = req.params;
+//             const query = "SELECT * FROM bebidas WHERE id = ?";
+//             db.query(query, [id], (err, result) => {
+//                 if (err) {
+//                     console.log(err);
+//                     reject("Erro ao buscar bebida");
+//                 } else {
+//                     resolve(result);
+//                 }
+//             });
+//         })
+//     ])
+//         .then(([categorias, fabricantes]) => {
+//             res.json({ categorias, fabricantes });
+//         })
+//         .catch(error => {
+//             console.log(error);
+//             res.status(500).send("Erro ao obter os dados");
+//         });
+// });
+
 app.put('/api/bebidas/editar/:id', (req, res) => {
     const { id } = req.params;
     const { nome, descricao, categoria_id, fabricante_id, teor_alcoolico } = req.body;
@@ -118,7 +136,7 @@ app.put('/api/bebidas/editar/:id', (req, res) => {
     });
 });
 
-//VISUALIZAR
+// VISUALIZAR
 app.get('/api/bebidas/:id', (req, res) => {
     const { id } = req.params;
     const query = "SELECT * FROM bebidas WHERE id = ?";
@@ -136,16 +154,25 @@ app.get('/api/bebidas/:id', (req, res) => {
     });
 });
 
-//DELETAR
+// DELETAR
 app.delete('/api/bebidas/:id', (req, res) => {
     const { id } = req.params;
-    const query = "DELETE FROM bebidas WHERE id = ?";
-    db.query(query, [id], (err, result) => {
+    const queryDelete = "DELETE FROM bebidas WHERE id = ?";
+    const querySelectAll = "SELECT * FROM bebidas";
+
+    db.query(queryDelete, [id], (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send("Erro ao excluir bebida");
         } else {
-            res.send("Bebida excluída com sucesso");
+            db.query(querySelectAll, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).send("Erro ao listar bebidas");
+                } else {
+                    res.send(result);
+                }
+            });
         }
     });
 });

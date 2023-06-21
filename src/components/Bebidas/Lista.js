@@ -9,7 +9,8 @@ function ListaBebidas() {
   useEffect(() => {
     api.get('bebidas/listar')
       .then(response => {
-        setBebidas(response.data);
+        setBebidas(response.data)
+        console.log(response);
       })
       .catch(error => {
         console.log(error);
@@ -34,8 +35,13 @@ function ListaBebidas() {
       </Card.Header>
       <Card.Body>
         <div className="text-right mb-3">
-          <Link to="/bebidas/adicionar" className="btn btn-primary">
-            Cadastrar Nova Bebida
+          <Link to="/bebidas/adicionar" className="btn btn-warning" size="lg">
+            <div className="d-flex align-items-center">
+            <span className="material-icons fs-4">
+              add
+            </span>
+            Cadastrar bebida
+            </div>
           </Link>
         </div>
         <Table striped bordered hover responsive>
@@ -45,7 +51,7 @@ function ListaBebidas() {
               <th>Descrição</th>
               <th>Categoria</th>
               <th>Fabricante</th>
-              <th>Ações</th>
+              <th style={{ width: "130px", minWidth: "130px", textAlign: "center" }}>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -53,35 +59,43 @@ function ListaBebidas() {
               <tr key={bebida.id}>
                 <td>{bebida.nome}</td>
                 <td>{bebida.descricao}</td>
-                <td>{bebida.categoria}</td>
-                <td>{bebida.fabricante}</td>
-                <td>
-                  <Button
-                    size='sm'
-                    variant="info"
-                    className=''
+                <td>{bebida.categoria_nome}</td>
+                <td>{bebida.fabricante_nome}</td>
+                <td className='d-flex justify-content-around'>
+                  <Link
+                    className="btn btn-primary"
+                    to={'/bebidas/visualizar/'+bebida.id}
+                    variant="primary"
+                    style={{ width: "30px", height: "30px" }}
                     onClick={() => handleDelete(bebida.id)}
                   >
-                    <span className='material-icons' style={{ fontSize: "20px" }}>
-                      search
-                    </span>
-                  </Button>
-                  <Button
-                    size='sm'
+                    <div className='d-flex justify-content-center'>
+                      <span className='material-icons fs-5 text-dark'>
+                        search
+                      </span>
+                    </div>
+                  </Link>
+                  <Link
+                    className='btn btn-warning'
+                    to={'/bebidas/editar/'+bebida.id}
+                    style={{ width: "30px", height: "30px" }}
                     variant="warning">
-                    <span className='material-icons' style={{ fontSize: "20px", color: "white" }}>
-                      edit
-                    </span>
-                  </Button>{' '}
+                    <div className='d-flex justify-content-center'>
+                      <span className='material-icons fs-5'>
+                        edit
+                      </span>
+                    </div>
+                  </Link>
                   <Button
-                    size='sm'
                     variant="danger"
-                    className=''
+                    style={{ width: "30px", height: "30px" }}
                     onClick={() => handleDelete(bebida.id)}
                   >
-                    <span className='material-icons' style={{ fontSize: "20px" }}>
-                      clear
-                    </span>
+                    <div className='d-flex justify-content-center'>
+                      <span className='material-icons fs-5 text-dark'>
+                        clear
+                      </span>
+                    </div>
                   </Button>
                 </td>
               </tr>
