@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import api from '../../service/api';
 
-const FormularioBebida = () => {
+const FormularioCategoria = () => {
     const [formValues, setFormValues] = useState({
         nome: '',
         descricao: '',
-        categoria: '',
     });
 
     const handleInputChange = (e) => {
@@ -20,7 +19,7 @@ const FormularioBebida = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Lógica para enviar os dados do formulário para o backend e adicionar ou atualizar uma bebida
-        api.post('/api/bebidas/adicionar')
+        api.post('/api/categorias/adicionar')
         .then(response => {
         })
         .catch(error => {
@@ -48,15 +47,6 @@ const FormularioBebida = () => {
                     onChange={handleInputChange}
                 />
             </Form.Group>
-            <Form.Group controlId="categoria">
-                <Form.Label>Categoria</Form.Label>
-                <Form.Control
-                    type="text"
-                    name="categoria"
-                    value={formValues.categoria}
-                    onChange={handleInputChange}
-                />
-            </Form.Group>
             <Button variant="primary" type="submit">
                 Salvar
             </Button>
@@ -64,4 +54,4 @@ const FormularioBebida = () => {
     );
 };
 
-export default FormularioBebida;
+export default FormularioCategoria;

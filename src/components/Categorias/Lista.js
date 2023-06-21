@@ -31,8 +31,8 @@ function ListaCategorias() {
     <div>
       <Row>
         <Col>
-          <Link to="/bebidas/adicionar" className="btn btn-primary mb-4">
-            Cadastrar Nova Bebida
+          <Link to="/categorias/adicionar" className="btn btn-primary mb-4">
+            Cadastrar nova categoria
           </Link>
         </Col>
       </Row>
