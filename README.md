@@ -19,19 +19,19 @@ Antes de começar, verifique se o seguinte software está instalado em sua máqu
 
     CREATE TABLE categorias (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL
+    nome VARCHAR(50)
     );
 
     CREATE TABLE fabricantes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    nome VARCHAR(100),
     localizacao VARCHAR(100),
     ano_fundacao YEAR
     );
 
     CREATE TABLE bebidas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    nome VARCHAR(100),
     descricao TEXT,
     categoria_id INT,
     fabricante_id INT,

@@ -7,6 +7,7 @@ const PORT = 5000;
 
 app.use(cors());
 app.use(express.json());
+
 db.connect(function (err) {
     if (err){
         console.log(err);
@@ -16,16 +17,32 @@ db.connect(function (err) {
 });
 //LISTAR
 app.get("/api/bebidas/listar", (req, res) => {
-    db.query("SELECT * FROM bebidas", (err, result) => {
-        console.log(result);
-        console.log(err);
+    let bebidas = db.query("SELECT * FROM bebidas", (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send("Erro ao listar bebidas");
+            bebidas = [];
         } else {
+            bebidas = result;
         }
-        res.send(err);
-        res.send(result);
+    });
+    let categorias = db.query("SELECT * FROM categorias", (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Erro ao listar categorias");
+            categorias = [];
+        } else {
+            categorias = result;
+        }
+    });
+    let fabricantes = db.query("SELECT * FROM fabricantes", (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Erro ao listar fabricantes");
+            fabricantes = [];
+        } else {
+            fabricantes = result;
+        }
     });
 });
 

@@ -3,7 +3,7 @@ import { Card, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import api from '../../service/api';
 
-function ListaBebidas() {
+function ListaCategorias() {
   const [bebidas, setBebidas] = useState([]);
 
   useEffect(() => {
@@ -60,4 +60,4 @@ function ListaBebidas() {
   );
 }
 
-export default ListaBebidas;
+export default ListaCategorias;

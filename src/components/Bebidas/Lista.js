@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import api from '../../service/api';
 
@@ -28,35 +28,48 @@ function ListaBebidas() {
   };
 
   return (
-    <div>
-      <Row>
-        <Col>
-          <Link to="/bebidas/adicionar" className="btn btn-primary mb-4">
+    <Card className="mx-auto mt-4" style={{ maxWidth: '800px' }}>
+      <Card.Header className="text-center">
+        <h4>Lista de Bebidas</h4>
+      </Card.Header>
+      <Card.Body>
+        <div className="text-right mb-3">
+          <Link to="/bebidas/adicionar" className="btn btn-primary">
             Cadastrar Nova Bebida
           </Link>
-        </Col>
-      </Row>
-      <Row>
-        {bebidas.map(bebida => (
-          <Col key={bebida.id} xs={12} sm={6} md={4} lg={3}>
-            <Card className="mb-4">
-              <Card.Body>
-                <Card.Title>{bebida.nome}</Card.Title>
-                <Card.Text>{bebida.descricao}</Card.Text>
-                <Card.Text>Categoria: {bebida.categoria}</Card.Text>
-                <Button variant="info">Editar</Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleDelete(bebida.id)}
-                >
-                  Excluir
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </div>
+        </div>
+        <Table striped bordered hover responsive>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th>Fabricante</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bebidas.map(bebida => (
+              <tr key={bebida.id}>
+                <td>{bebida.nome}</td>
+                <td>{bebida.descricao}</td>
+                <td>{bebida.categoria}</td>
+                <td>{bebida.fabricante}</td>
+                <td>
+                  <Button variant="info">Editar</Button>{' '}
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDelete(bebida.id)}
+                  >
+                    Excluir
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Card.Body>
+    </Card>
   );
 }
 

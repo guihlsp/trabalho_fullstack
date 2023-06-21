@@ -1,12 +1,12 @@
-import VisualizacaoBebida from "../../components/Bebidas/Visualizacao";
+import VisualizacaoCategoria from "../../components/Categorias/Visualizacao";
 
-const VisualizarBebida = () => {
+const VisualizarCategoria = () => {
     return (
         <div>
-            <h1>Visualizar bebida</h1>
-            <VisualizacaoBebida />
+            <h1>Visualizar Categoria</h1>
+            <VisualizacaoCategoria />
         </div>
     );
 };
 
-export default VisualizarBebida;
+export default VisualizarCategoria;

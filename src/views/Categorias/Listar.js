@@ -1,12 +1,12 @@
-import ListaBebidas from "../../components/Bebidas/Lista";
+import ListaCategorias from "../../components/Categorias/Lista";
 
-function ListarBebidas(){
+function ListarCategorias(){
     return (
         <div>
-            <h1>Bebidas</h1>
-            <ListaBebidas />
+            <h1>Categorias</h1>
+            <ListaCategorias />
         </div>
     );
 };
 
-export default ListarBebidas;
+export default ListarCategorias;

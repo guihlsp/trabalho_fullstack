@@ -1,12 +1,12 @@
-import FormularioBebida from "../../components/Bebidas/Formulario";
+import FormularioCategoria from "../../components/Categorias/Formulario";
 
-const AdicionarBebida = () => {
+const AdicionarCategoria = () => {
     return (
         <div>
-            <h1>Adicionar bebida</h1>
-            <FormularioBebida action="adicionar"/>
+            <h1>Adicionar Categoria</h1>
+            <FormularioCategoria action="adicionar"/>
         </div>
     );
 };
 
-export default AdicionarBebida;
+export default AdicionarCategoria;
