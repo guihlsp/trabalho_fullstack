@@ -56,12 +56,32 @@ function ListaBebidas() {
                 <td>{bebida.categoria}</td>
                 <td>{bebida.fabricante}</td>
                 <td>
-                  <Button variant="info">Editar</Button>{' '}
                   <Button
-                    variant="danger"
+                    size='sm'
+                    variant="info"
+                    className=''
                     onClick={() => handleDelete(bebida.id)}
                   >
-                    Excluir
+                    <span className='material-icons' style={{ fontSize: "20px" }}>
+                      search
+                    </span>
+                  </Button>
+                  <Button
+                    size='sm'
+                    variant="warning">
+                    <span className='material-icons' style={{ fontSize: "20px", color: "white" }}>
+                      edit
+                    </span>
+                  </Button>{' '}
+                  <Button
+                    size='sm'
+                    variant="danger"
+                    className=''
+                    onClick={() => handleDelete(bebida.id)}
+                  >
+                    <span className='material-icons' style={{ fontSize: "20px" }}>
+                      clear
+                    </span>
                   </Button>
                 </td>
               </tr>
