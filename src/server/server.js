@@ -18,15 +18,32 @@ db.connect(function (err) {
 
 // LISTAR
 app.get("/api/bebidas/listar", (req, res) => {
-    db.query("SELECT * FROM bebidas", (err, result) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send("Erro ao listar bebidas");
-        } else {
-            res.send(result);
-        }
-    });
+    const { busca } = req.query;
+
+    if (busca || busca != null) {
+        const query = "SELECT * FROM bebidas WHERE nome LIKE ?";
+        const search = `%${busca}%`;
+
+        db.query(query, [search], (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Erro ao buscar bebidas");
+            } else {
+                res.send(result);
+            }
+        });
+    } else {
+        db.query("SELECT * FROM bebidas", (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Erro ao listar bebidas");
+            } else {
+                res.send(result);
+            }
+        });
+    }
 });
+
 
 // ADICIONAR
 app.get('/api/bebidas/adicionar', (req, res) => {
@@ -133,7 +150,6 @@ app.get('/api/bebidas/visualizar/:id', (req, res) => {
         }
     });
 });
-
 // DELETAR
 app.delete('/api/bebidas/:id', (req, res) => {
     const { id } = req.params;
@@ -150,7 +166,7 @@ app.delete('/api/bebidas/:id', (req, res) => {
                     console.log(err);
                     res.json({ status: "error", message: "Não foi possível excluir a bebida!" });
                 } else {
-                    res.json({ status: "success", message: "Bebida excluída com sucesso!", data: result});
+                    res.json({ status: "success", message: "Bebida excluída com sucesso!", data: result });
                 }
             });
         }
