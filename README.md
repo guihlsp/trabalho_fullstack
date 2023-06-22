@@ -4,7 +4,7 @@ Este é um projeto de CRUD de bebidas desenvolvido em React, utilizando Express 
 
 # Alunos
 
-- Guilherme Henrique Pereira Luiz Soares
+- Guilherme Henrique Luiz Soares Pereira
 - Lucas Emmanuel Estevão da Paixão
 - Luiz Filipe Marques Nascimento
 - Rodrigo Tadeu
