@@ -220,23 +220,28 @@ app.get('/api/categorias/visualizar/:id', (req, res) => {
     });
 });
 
-
 // DELETAR CATEGORIA
-app.delete('/api/categorias/deletar/:id', (req, res) => {
+app.delete('/api/categorias/:id', (req, res) => {
     const { id } = req.params;
-    console.log('Deletar categoria:', id);
+    const queryDelete = "DELETE FROM categorias WHERE id = ?";
+    const querySelectAll = "SELECT * FROM categorias";
 
-    const query = "DELETE FROM categorias WHERE id = ?";
-    db.query(query, [id], (err, result) => {
+    db.query(queryDelete, [id], (err, result) => {
         if (err) {
             console.log(err);
-            res.status(500).send("Erro ao deletar categoria");
+            res.json({ status: "error", message: "Não foi possível excluir a categorias!" });
         } else {
-            res.json({ status: "success", message: "Categoria deletada com sucesso" });
+            db.query(querySelectAll, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    res.json({ status: "error", message: "Não foi possível excluir a categorias!" });
+                } else {
+                    res.json({ status: "success", message: "Categoria excluída com sucesso!", data: result});
+                }
+            });
         }
     });
 });
-
 
 app.post('/api/categorias/adicionar', (req, res) => {
     const { nome } = req.body;
@@ -251,7 +256,6 @@ app.post('/api/categorias/adicionar', (req, res) => {
         }
     });
 });
-
 
 app.listen(PORT, () => {
     console.log(`Servidor Express iniciado na porta ${PORT}`);
