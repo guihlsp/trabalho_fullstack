@@ -32,7 +32,7 @@ function ListaBebidas() {
             setAlertMessageError('');
           }, 1500);
         } else {
-          setBebidas(response.data);
+          setBebidas(prevBebidas => prevBebidas.filter(bebida => bebida.id !== id));
           setAlertMessageSucces(message);
           setTimeout(() => {
             setAlertMessageSucces('');
