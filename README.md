@@ -2,6 +2,13 @@
 
 Este é um projeto de CRUD de bebidas desenvolvido em React, utilizando Express como servidor backend e MySQL como banco de dados.
 
+# Alunos
+
+Guilherme Henrique Pereira Luiz Soares
+Lucas Emmanuel Estevão da Paixão
+Luiz Filipe Marques Nascimento
+Rodrigo Tadeu
+
 ## Pré-requisitos
 
 Antes de começar, verifique se o seguinte software está instalado em sua máquina:
