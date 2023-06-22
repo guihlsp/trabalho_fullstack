@@ -121,6 +121,7 @@ app.get('/api/bebidas/editar/:id', (req, res) => {
 
 app.put('/api/bebidas/editar/:id', (req, res) => {
     const { id } = req.params;
+    console.log(req.body);
     const { nome, descricao, categoria_id, categoria_nome, teor_alcoolico } = req.body;
     const query = "UPDATE bebidas SET nome = ?, descricao = ?, categoria_id = ?, categoria_nome = ?, teor_alcoolico = ? WHERE id = ?";
     db.query(query, [nome, descricao, categoria_id, categoria_nome, teor_alcoolico, id], (err, result) => {

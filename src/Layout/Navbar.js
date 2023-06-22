@@ -16,11 +16,18 @@ function NavbarComponent() {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
+
   return (
     <Navbar expand="lg" bg="dark" data-bs-theme="dark">
       <Container fluid>
         <Navbar.Brand href="#" className='text-warning'><span className="material-icons fs-2">sports_bar</span></Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll"/>
+        <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
@@ -38,6 +45,7 @@ function NavbarComponent() {
               aria-label="Buscar"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
             <Button variant="outline-warning" onClick={handleSearch}>Search</Button>
           </Form>
