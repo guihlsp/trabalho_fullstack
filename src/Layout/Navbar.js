@@ -29,7 +29,6 @@ function NavbarComponent() {
           >
             <Nav.Link href="/bebidas">Bebidas</Nav.Link>
             <Nav.Link href="/categorias">Categorias</Nav.Link>
-            <Nav.Link href="/drinks">Drinks</Nav.Link>
           </Nav>
           <Form className="d-flex">
             <Form.Control
