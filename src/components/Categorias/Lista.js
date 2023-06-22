@@ -29,7 +29,8 @@ function ListaCategorias() {
             setAlertMessageError('');
           }, 1500);
         } else {
-          setCategorias(response.data);
+          // Remove a categoria excluída do estado categorias
+          setCategorias(prevCategorias => prevCategorias.filter(categoria => categoria.id !== id));
           setAlertMessageSuccess(message);
           setTimeout(() => {
             setAlertMessageSuccess('');

@@ -1,24 +1,48 @@
-import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Card, Table } from 'react-bootstrap';
+import { useParams, Link } from 'react-router-dom';
+import api from '../../service/api';
 
-const VisualizacaoBebida = ({ bebida, onClose }) => {
-    return (
-        <Modal show={!!bebida} onHide={onClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Detalhes da Bebida</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <h5>Nome: {bebida?.nome}</h5>
-                <p>Descrição: {bebida?.descricao}</p>
-                <p>Categoria: {bebida?.categoria}</p>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={onClose}>
-                    Fechar
-                </Button>
-            </Modal.Footer>
-        </Modal>
-    );
+const VisualizacaoCategoria = () => {
+  const { id } = useParams();
+  const [categoria, setCategoria] = useState(null);
+
+  useEffect(() => {
+    api.get(`categorias/visualizar/${id}`)
+      .then(response => {
+        setCategoria(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [id]);
+
+  return (
+    <Card className="mx-auto mt-4" style={{ maxWidth: '800px' }}>
+      <Card.Header className=''>
+        <Link to="/categorias" style={{ position: 'absolute', marginTop: '5px', color: 'black' }}>
+          <span className="material-icons">arrow_back</span>
+        </Link>
+        <div className="text-center">
+          <h4>Detalhes</h4>
+        </div>
+      </Card.Header>
+      <Card.Body>
+        <Table striped bordered hover responsive>
+          <thead>
+            <tr>
+              <th>Nome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr key={categoria?.id}>
+              <td>{categoria?.nome}</td>
+            </tr>
+          </tbody>
+        </Table>
+      </Card.Body>
+    </Card>
+  );
 };
 
-export default VisualizacaoBebida;
+export default VisualizacaoCategoria;
