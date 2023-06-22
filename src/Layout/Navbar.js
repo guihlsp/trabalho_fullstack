@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -5,6 +6,16 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
 function NavbarComponent() {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = () => {
+    if (searchTerm === '') {
+      window.location.href = '/bebidas';
+    } else {
+      window.location.href = `/bebidas?busca=${encodeURIComponent(searchTerm)}`;
+    }
+  };
+
   return (
     <Navbar expand="lg" bg="dark" data-bs-theme="dark">
       <Container fluid>
@@ -26,8 +37,10 @@ function NavbarComponent() {
               placeholder="Buscar bebida"
               className="me-2"
               aria-label="Buscar"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <Button variant="outline-warning">Search</Button>
+            <Button variant="outline-warning" onClick={handleSearch}>Search</Button>
           </Form>
         </Navbar.Collapse>
       </Container>

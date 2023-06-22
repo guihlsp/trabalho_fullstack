@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import api from '../../service/api';
 
 function ListaBebidas() {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const busca = params.get('busca');
+
   const [bebidas, setBebidas] = useState([]);
   const [alertMessageSuccess, setAlertMessageSucces] = useState('');
   const [alertMessageError, setAlertMessageError] = useState('');
 
-
   useEffect(() => {
-    api.get('bebidas/listar')
+    api.get('bebidas/listar' + (busca ? `?busca=${busca}`: ''))
       .then(response => {
-        setBebidas(response.data)
+        setBebidas(response.data);
       })
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, !busca ? [] : [busca]);
 
   const handleDelete = id => {
     api.delete('bebidas/' + id)

@@ -17,9 +17,9 @@ const VisualizacaoBebida = () => {
       });
   }, [id]);
 
-  if (!bebida) {
-    return <div>Loading...</div>;
-  }
+//   if (!bebida) {
+//     window.location.href = '/bebidas';
+//   }
 
   return (
     <Card className="mx-auto mt-4" style={{ maxWidth: '800px' }}>
@@ -41,10 +41,10 @@ const VisualizacaoBebida = () => {
             </tr>
           </thead>
           <tbody>
-            <tr key={bebida.id}>
-              <td>{bebida.nome}</td>
-              <td>{bebida.descricao}</td>
-              <td>{bebida.categoria_nome}</td>
+            <tr key={bebida?.id}>
+              <td>{bebida?.nome}</td>
+              <td>{bebida?.descricao}</td>
+              <td>{bebida?.categoria_nome}</td>
             </tr>
           </tbody>
         </Table>
